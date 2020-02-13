@@ -6,18 +6,25 @@ export class FilterableProductTable extends React.Component {
     //aqui ficará o estado. No componente pai, pois as children que usarão.
     //Estado inicial SearchText: '' (basrra de busca)
     //Estado inicial isChecked: false (checkbox)
-    // constructor(props){
-    //     super(props);
+    constructor(props){
+        super(props);
 
-    //     this.state = {
-
-    //     }
-    // }
+        this.state = {
+            filterText: '',
+            inStockOnly: false
+        }
+    }
 
     render(){
         return(
             <div>
-                <ProductTable products={PRODUCTS} />
+                <SearchBar 
+                filterText={this.state.filterText}
+                inStockOnly={this.state.inStockOnly}/>
+                <ProductTable 
+                products={PRODUCTS} 
+                filterText={this.state.filterText}
+                inStockOnly={this.state.inStockOnly}/>
             </div>
         )
     }
@@ -25,21 +32,19 @@ export class FilterableProductTable extends React.Component {
 
 
 export class SearchBar extends React.Component {
-    // constructor(props){
-    //     super(props);
-    //     //vai usar estado. Precisa saber o estado.
-    // }
-
     render(){
+        const filterText = this.props.filterText;
+        const inStockOnly = this.props.inStockOnly;
+
         return (
-            <div>
+            <form>
                 <input type="text" placeholder="Search..." />
                 <div>
-                    <input type="checkbox" />
+                    <input type="checkbox" checked={inStockOnly}/>
                     <label>Somente produtos em estoque</label>
                 </div>
                 
-            </div>
+            </form>
         );
     }
 }
@@ -50,11 +55,21 @@ export class SearchBar extends React.Component {
 export class ProductTable extends React.Component {
     
     render(){
+        const filterText = this.props.filterText;
+        const inStockOnly = this.props.inStockOnly;
+
         const rows = [];
         let lastCategory = null;
 
         
         this.props.products.forEach(product => {
+            if(product.name.indexOf(filterText) === -1){
+                return;
+            }
+            if(inStockOnly && !product.stocked){
+                return;
+            }
+
             if(product.category !== lastCategory){
                 rows.push(
                 <ProductCategoryRow category={product.category} key={product.category}/>); 
@@ -63,6 +78,8 @@ export class ProductTable extends React.Component {
             lastCategory = product.category;
         });
 
+        //criamos uma constante que recebe via props o texto digitado no campo Search.
+        //criamos uma constante que recebe via props a informação do checkbox: somente produtos em estoque.
         //criamos uma constante de linhas vazias.
         //setamos que a última categoria receberá o valor null (ou nenhum valor, logo não aparecerá na tela).
         //chamamos a função foreach que vai mostrar na tela cada um dos elementos recebidos através do mock.js. Se a categoria receber valor, irá incluir em cada linha a categoria recebida via props. E para cada linha de produto, dentro da categoria, irá incluir os valores recebidos para nome e preço, via props.
