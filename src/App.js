@@ -1,5 +1,4 @@
 import React from 'react';
-import {SearchBar} from './components';
 import {FilterableProductTable} from './components';
 import './App.css';
 
