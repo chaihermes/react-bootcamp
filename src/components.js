@@ -84,24 +84,41 @@ export class ProductTable extends React.Component {
     }
 }
 
-//Criamos um class component, pois retorna dois elementos (children), que estão "abrigados" dentro de um elemento parent.
-export class ProductRow extends React.Component{
-    render(){
-        return(
-            <tr>
-                <td>{this.props.product.name}</td>
-                <td>{this.props.product.price}</td>
-            </tr>
-        )
-    }
-};
-
-//criamos uma function component para a linha de categoria de produto. Pode ser function component, pois retorna um elemento e aceita props.
+//criamos uma functional component para a linha de categoria de produto. Pode ser function component, pois retorna um elemento e aceita props.
 const ProductCategoryRow = props => { 
     return (
     <tr>
         <th colSpan='2'>{props.category}</th> 
     </tr>
 )};
+//Outra forma de escrever:
+// export class ProductCategoryRow extends React.Component {
+//     render(){
+//         const category = this.props.category;
+
+//         return(
+//             <tr>
+//                 <th colSpan='2'>{category}</th>
+//             </tr>
+//         );
+//     }
+// };
 
 
+
+//Criamos um class component, pois retorna dois elementos (children), que estão "abrigados" dentro de um elemento parent.
+export class ProductRow extends React.Component{
+    render(){
+        const product = this.props.product;
+        const name = product.stocked ? product.name : <span style={{color: 'red'}}>{product.name}</span>;
+        return(
+            <tr>
+                <td>{name}</td>
+                <td>{product.price}</td>
+            </tr>
+        )
+    }
+};
+//com a constante product, trazemos as informações do parent. 
+//na constante name, fazemos um if ternário: se o produto estiver em estoque, retornar o nome do produto em vermelho; caso contrário, retornar o nome do produto sem cor específica.
+//E retorna tudo denro de uma tabela que mostra o nome e o preço do produto.
