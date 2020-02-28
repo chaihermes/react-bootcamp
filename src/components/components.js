@@ -1,5 +1,5 @@
 import React from 'react'
-import { PRODUCTS } from "./mock"
+import { PRODUCTS } from "../mock"
 
 
 export class FilterableProductTable extends React.Component {
@@ -64,13 +64,14 @@ export class SearchBar extends React.Component {
         this.props.onInStockChange(e.target.checked);
     }
     //o handleChange é executado a cada tecla pressionada para atualizar o estado do React, o valor exibido será atualizado conforme o usuário digita. Tanto para o que for digitado na search bar, quanto para o clique da checkbox.
+    //target é o valor atual do evento. O value é o valor que está sendo digitado no campo input.
 
     render(){
         // const filterText = this.props.filterText;
         // const inStockOnly = this.props.inStockOnly;
 
         return (
-            <form>
+            <form className="header">
                 <input type="text" placeholder="Search..."
                 value={this.props.filterText}
                 onChange={this.handleFilterTextChange} />
@@ -122,7 +123,7 @@ export class ProductTable extends React.Component {
         //chamamos a função foreach que vai mostrar na tela cada um dos elementos recebidos através do mock.js. Se a categoria receber valor, irá incluir em cada linha a categoria recebida via props. E para cada linha de produto, dentro da categoria, irá incluir os valores recebidos para nome e preço, via props.
         //O método indexOf() retorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente. Ou seja, caso o que for digitado pelo usuário não esteja na tabela, retorna vazio, pois não foi encontrado nada na tabela que corresponda à pesquisa.
         return (
-            <table>
+            <table className="table">
                 <thead>
                     <tr className="headerTable">
                         <th>Name</th>
@@ -173,3 +174,4 @@ export class ProductRow extends React.Component{
 //com a constante product, trazemos as informações do parent. 
 //na constante name, fazemos um if ternário: se o produto estiver em estoque, retornar o nome do produto em vermelho; caso contrário, retornar o nome do produto sem cor específica.
 //E retorna tudo denro de uma tabela que mostra o nome e o preço do produto.
+

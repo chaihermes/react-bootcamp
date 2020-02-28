@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilterableProductTable} from './components';
+import {FilterableProductTable} from './components/components';
 import './App.css';
 
 function App() {
